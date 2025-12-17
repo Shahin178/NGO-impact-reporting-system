@@ -138,7 +138,7 @@ MongoDB (Reports + Jobs)
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/Shahin178/NGO-impact-reporting-system.git
 cd backend
 ```
 
