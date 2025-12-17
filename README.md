@@ -8,12 +8,12 @@ This project is a full‑stack web application built as part of the **SDE I Take
 
 We work with NGOs across India to help them track and report the impact of their work. The goal of this application is to:
 
-* Allow NGOs to submit **monthly reports**
-* Support **bulk uploads** via CSV files
-* Process large inputs **asynchronously in the background**
-* Handle **partial failures** gracefully (invalid rows should not fail the entire upload)
-* Provide **job status tracking** for bulk uploads
-* Show an **admin dashboard** with aggregated impact metrics
+- Allow NGOs to submit **monthly reports**
+- Support **bulk uploads** via CSV files
+- Process large inputs **asynchronously in the background**
+- Handle **partial failures** gracefully (invalid rows should not fail the entire upload)
+- Provide **job status tracking** for bulk uploads
+- Show an **admin dashboard** with aggregated impact metrics
 
 ---
 
@@ -23,35 +23,35 @@ We work with NGOs across India to help them track and report the impact of their
 
 1. **Report Submission Form**
 
-   * Submit a single NGO monthly report
-   * Fields:
+   - Submit a single NGO monthly report
+   - Fields:
 
-     * NGO ID
-     * Month (YYYY-MM)
-     * People Helped
-     * Events Conducted
-     * Funds Utilized
+     - NGO ID
+     - Month (YYYY-MM)
+     - People Helped
+     - Events Conducted
+     - Funds Utilized
 
 2. **Bulk Report Upload (CSV)**
 
-   * Upload CSV file containing multiple reports
-   * Receives a `jobId` from backend
-   * Polls job status every few seconds
-   * Displays:
+   - Upload CSV file containing multiple reports
+   - Receives a `jobId` from backend
+   - Polls job status every few seconds
+   - Displays:
 
-     * Processed rows
-     * Failed rows
-     * Current status (processing / completed)
+     - Processed rows
+     - Failed rows
+     - Current status (processing / completed)
 
 3. **Admin Dashboard**
 
-   * View aggregated data for a selected month
-   * Metrics:
+   - View aggregated data for a selected month
+   - Metrics:
 
-     * Total NGOs Reporting
-     * Total People Helped
-     * Total Events Conducted
-     * Total Funds Utilized
+     - Total NGOs Reporting
+     - Total People Helped
+     - Total Events Conducted
+     - Total Funds Utilized
 
 ---
 
@@ -68,15 +68,15 @@ We work with NGOs across India to help them track and report the impact of their
 
 #### Background Processing
 
-* **BullMQ + Redis** used for background CSV processing
-* CSV rows are processed **asynchronously**
-* Job progress is stored in MongoDB and polled by frontend
-* Invalid rows are counted as failures without stopping the job
+- **BullMQ + Redis** used for background CSV processing
+- CSV rows are processed **asynchronously**
+- Job progress is stored in MongoDB and polled by frontend
+- Invalid rows are counted as failures without stopping the job
 
 #### Idempotency
 
-* Reports are **upserted** using `(ngoId + month)`
-* Prevents duplicate counting for the same NGO/month
+- Reports are **upserted** using `(ngoId + month)`
+- Prevents duplicate counting for the same NGO/month
 
 ---
 
@@ -84,24 +84,24 @@ We work with NGOs across India to help them track and report the impact of their
 
 ### Frontend
 
-* React
-* Tailwind CSS
-* Axios
+- React
+- Tailwind CSS
+- Axios
 
 ### Backend
 
-* Node.js
-* Express.js
-* BullMQ (Queue + Worker)
-* Redis (via Docker)
-* MongoDB (Mongoose)
-* Multer (file uploads)
-* csv-parser
+- Node.js
+- Express.js
+- BullMQ (Queue + Worker)
+- Redis (via Docker)
+- MongoDB (Mongoose)
+- Multer (file uploads)
+- csv-parser
 
 ### Infrastructure / Tools
 
-* Docker (Redis)
-* Nodemon (development)
+- Docker (Redis)
+- Nodemon (development)
 
 ---
 
@@ -129,9 +129,9 @@ MongoDB (Reports + Jobs)
 
 ### Prerequisites
 
-* Node.js (v18+ recommended)
-* MongoDB (Atlas)
-* Docker (for Redis)
+- Node.js (v18+ recommended)
+- MongoDB (Atlas)
+- Docker (for Redis)
 
 ---
 
@@ -231,22 +231,75 @@ Invalid rows are counted as failures and do not block processing.
 
 AI tools (ChatGPT) were used for:
 
-* Debugging async CSV stream issues
-* Improving BullMQ worker design
-* Structuring the README and architecture explanations
+- Debugging async CSV stream issues
+- Improving BullMQ worker design
+- Structuring the README and architecture explanations
 
 All logic decisions and final implementation were reviewed and understood before integration.
 
 ---
 
-## 🔮 Improvements With More Time
+## � Deployment with Docker
 
-* Retry logic for failed CSV rows
-* Pagination and filters in admin dashboard
-* Authentication for admin routes
-* Rate limiting and file size limits
-* Structured logging and metrics
-* CI/CD pipeline and Docker Compose
+To deploy the application using Docker, follow these steps:
+
+### Prerequisites
+
+- Docker and Docker Compose installed on your system
+
+### Steps
+
+1. **Clone the repository** (if not already done)
+
+   ```bash
+   git clone <repository-url>
+   cd wedogood-assignment
+   ```
+
+2. **Build and run the services**
+
+   ```bash
+   docker-compose up --build
+   ```
+
+3. **Access the application**
+   - Frontend: http://localhost
+   - Backend API: http://localhost:5000
+
+### Services
+
+- **MongoDB**: Database for storing reports and jobs
+- **Redis**: Queue for background CSV processing
+- **Backend**: Node.js API server
+- **Frontend**: React app served by Nginx
+
+### Environment Variables
+
+The following environment variables are set in `docker-compose.yml`:
+
+- `MONGODB_URI`: MongoDB connection string
+- `PORT`: Backend port (5000)
+- `REDIS_HOST`: Redis host (redis)
+- `REDIS_PORT`: Redis port (6379)
+
+For production, consider using a `.env` file and updating the compose file accordingly.
+
+### Volumes
+
+- `mongodb_data`: Persists MongoDB data
+- `redis_data`: Persists Redis data
+- `./Backend/uploads`: Mounts upload directory for file persistence
+
+---
+
+## �🔮 Improvements With More Time
+
+- Retry logic for failed CSV rows
+- Pagination and filters in admin dashboard
+- Authentication for admin routes
+- Rate limiting and file size limits
+- Structured logging and metrics
+- CI/CD pipeline and Docker Compose
 
 ---
 
@@ -254,14 +307,14 @@ All logic decisions and final implementation were reviewed and understood before
 
 This project demonstrates:
 
-* Background job processing using BullMQ
-* Handling partial failures at scale
-* Idempotent data ingestion
-* Clean separation of frontend, API, and worker logic
+- Background job processing using BullMQ
+- Handling partial failures at scale
+- Idempotent data ingestion
+- Clean separation of frontend, API, and worker logic
 
 The focus was correctness, scalability, and clarity over UI polish, in line with the assignment expectations.
 
 ---
 
 **Author:** Shahin Bano
-**Role Target:** SDE I 
+**Role Target:** SDE I

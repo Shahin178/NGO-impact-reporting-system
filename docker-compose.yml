@@ -1,0 +1,66 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: wedogood_mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: wedogood
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - wedogood_network
+
+  redis:
+    image: redis:latest
+    container_name: wedogood_redis
+    restart: unless-stopped
+    # ports:
+    #   - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - wedogood_network
+
+  backend:
+    build: ./Backend
+    container_name: wedogood_backend
+    restart: unless-stopped
+    environment:
+      - MONGODB_URI=mongodb://admin:password@mongodb:27017/wedogood?authSource=admin
+      - PORT=5000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+      - redis
+    volumes:
+      - ./Backend/uploads:/app/uploads
+    networks:
+      - wedogood_network
+
+  frontend:
+    build: ./Frontend
+    container_name: wedogood_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - wedogood_network
+
+volumes:
+  mongodb_data:
+  redis_data:
+
+networks:
+  wedogood_network:
+    driver: bridge
