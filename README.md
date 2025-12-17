@@ -263,8 +263,9 @@ To deploy the application using Docker, follow these steps:
    ```
 
 3. **Access the application**
-   - Frontend: http://localhost
-   - Backend API: http://localhost:5000
+   - Frontend: https://ngo-impact-reporting-system-frontend.onrender.com/dashboard
+   - Backend API: https://ngo-impact-reporting-system-backend.onrender.com/
+   - GitHub Repo: https://github.com/Shahin178/NGO-impact-reporting-system
 
 ### Services
 
@@ -277,10 +278,11 @@ To deploy the application using Docker, follow these steps:
 
 The following environment variables are set in `docker-compose.yml`:
 
-- `MONGODB_URI`: MongoDB connection string
-- `PORT`: Backend port (5000)
-- `REDIS_HOST`: Redis host (redis)
-- `REDIS_PORT`: Redis port (6379)
+- `MONGODB_URI`: mongodb+srv://banoshahin89_db_user:lBJr1KTnPANwVjP5@cluster0.71znomu.mongodb.net/
+- `PORT`: 5000
+- `REDIS_HOST`: redis
+- `REDIS_PORT`: 6379
+- `REDIS_URL`: redis://red-d511rd6r433s739ndcag:6379
 
 For production, consider using a `.env` file and updating the compose file accordingly.
 
